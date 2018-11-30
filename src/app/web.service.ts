@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs';
+import { Movie } from '../interfaces/movie-interface'
 
 
 @Injectable({
@@ -12,15 +13,11 @@ export class WebService{
 
     constructor(private http: HttpClient) { }
 
-    checkCredentials(username, password){
-        return this.http.get(`${this.baseUrl}/auth`);
-    }
-
     getMovies(){
-        return this.http.get(`${this.baseUrl}/videos`);
+        return this.http.get<Movie[]>(`${this.baseUrl}/videos`);
     }
 
     getMovieDetails(movieId){
-        return this.http.get(`${this.baseUrl}/videos/`+movieId)
+        return this.http.get<Movie>(`${this.baseUrl}/videos/`+movieId)
     }
 }
