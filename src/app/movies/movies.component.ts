@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 import { Movie } from '../../interfaces/movie-interface';
 
 @Component({
-  selector: 'app-videos',
-  templateUrl: './videos.component.html',
-  styleUrls: ['./videos.component.css']
+  selector: 'app-movies',
+  templateUrl: './movies.component.html',
+  styleUrls: ['./movies.component.css']
 })
 
-export class VideosComponent implements OnInit {
+export class MoviesComponent implements OnInit {
 
   movies: Movie[];
   
