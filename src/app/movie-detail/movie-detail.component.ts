@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { WebService } from '../web.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { MoviesService } from '../services/movies/movies.service';
 
 @Component({
   selector: 'app-movie-detail',
@@ -12,7 +12,7 @@ export class MovieDetailComponent implements OnInit {
 
   movie$: Object;
 
-  constructor(private data: WebService, private route: ActivatedRoute) { 
+  constructor(private data: MoviesService, private route: ActivatedRoute) { 
     this.route.params.subscribe(params => this.movie$ = params.id)
   }
 
