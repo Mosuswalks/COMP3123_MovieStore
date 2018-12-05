@@ -16,8 +16,8 @@ import { MoviesService } from './services/movies/movies.service';
 import { AuthService } from './services/auth/auth.service';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Validator } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 
 
 let routes = [{
@@ -54,11 +54,6 @@ let routes = [{
     MaterialModule,
     ReactiveFormsModule,
     LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule
   ],
   providers: [ MoviesService, AuthService ],
   bootstrap: [AppComponent]

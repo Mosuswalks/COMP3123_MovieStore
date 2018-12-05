@@ -1,16 +1,21 @@
-
+<nav class="navbar" role="navigation">
 <mat-toolbar class="mat-typography"color="primary">
+  
   <mat-toolbar-row>
+    
     <button mat-button routerLink="/">
       <mat-icon>movie</mat-icon>
       Movie Bandit
     </button>
 
     <button mat-button routerLink="/movies">Movies</button>
+
     <span class="example-spacer"></span>
-    <button color="primary" mat-raised-button mat-stroked-button routerLink="/auth">Login</button>
+    <button class="navbar-end"color="primary" mat-raised-button mat-stroked-button *ngIf="auth.isAuthenticated()" (click)="logout()">Logout</button>
+    <button class="navbar-end"color="primary" mat-raised-button mat-stroked-button *ngIf="!auth.isAuthenticated()" (click)="login()">Login</button>
+
   </mat-toolbar-row>
   
 </mat-toolbar>
-
+</nav>
 

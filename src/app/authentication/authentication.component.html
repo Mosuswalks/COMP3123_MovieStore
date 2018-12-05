@@ -1,59 +1,75 @@
+<section class="section">
 <div class="columns">
-<mat-card class="mat-elevation-z3 column is-4 is-offset-4">
+<mat-card class="mat-elevation-z3 column is-4 is-offset-4 ">
     <div>
-        <mat-tab-group animationDuration="300ms">
-
-        <div class="container columns">
+        <mat-tab-group animationDuration="300ms" >
+        
+        <!-- Login Tab -->
+        <div class="container">
+        
           <mat-tab label="Login">
-            <br>
-              <mat-form-field class="column is-10 is-offset-1">
-                  <input matInput type="email" placeholder="Email">
+              
+            <br>  
+              <mat-form-field class="column is-10 is-offset-1" [formGroup]="loginForm" >
+                  <input type="email"matInput placeholder="Email" formControlName="email">
                   <mat-icon matSuffix>email</mat-icon>          
               </mat-form-field>
 
               <br>
-              <mat-form-field class="column is-10 is-offset-1">
-                  <input type="password" matInput placeholder="Password">
+              <mat-form-field class="column is-10 is-offset-1" [formGroup]="loginForm">
+                  <input type="password" matInput placeholder="Password" formControlName="password">
                   <mat-icon matSuffix>lock</mat-icon>
               </mat-form-field>
                   <br>
-              <button mat-raised-button color="primary" class=" ">Submit</button>
+                <div class="column is-offset-4">
+                    <button type="submit" mat-raised-button color="primary"  (click)="onSubmit()">Submit</button>
+                </div>
+            
           </mat-tab>
-
+        
         </div>
 
+        <!-- Register Tab -->
         <div class="container columns">
+           
           <mat-tab label="Register">
-            <br>
-            <mat-form-field class="column is-10 is-offset-1">
-              <input matInput type="text" placeholder="First Name">
+
+                <br>  
+           
+            <mat-form-field class="column is-10 is-offset-1" [formGroup]="registrationForm">
+              <input matInput type="text" placeholder="Full Name" formControlName="name">
+              <mat-icon matSuffix>person</mat-icon>
             </mat-form-field>
 
 
-
-            <mat-form-field class="column is-10 is-offset-1">
-                <input matInput type="email" placeholder="Email">
+            <mat-form-field class="column is-10 is-offset-1" [formGroup]="registrationForm">
+                <input matInput type="email" placeholder="Email"  formControlName="email">  
                 <mat-icon matSuffix>email</mat-icon>          
             </mat-form-field>
 
 
-            
+            <mat-form-field class="column is-10 is-offset-1" [formGroup]="registrationForm">
+                <input type="password" matInput placeholder="Password" formControlName="password">
+                <mat-icon matSuffix>lock_open</mat-icon>
+            </mat-form-field>
 
-            <br>
-            <mat-form-field class="column is-10 is-offset-1">
-                <input type="password" matInput placeholder="Password">
+            <mat-form-field class="column is-10 is-offset-1" [formGroup]="registrationForm">
+                <input type="password" matInput placeholder="Confirm Password" formControlName="passwordConfirm">
                 <mat-icon matSuffix>lock</mat-icon>
             </mat-form-field>
-                <br>
-            <button mat-raised-button color="primary" class=" ">Submit</button>
+            
+            <div class="column is-offset-4">
+                <button type=submit mat-raised-button color="primary" [formGroup]="registrationForm" (click)="onSubmit()" class="">Submit</button>
+            </div>
 
-
+    
         </mat-tab>
       </div>
       </mat-tab-group>
+
     </div>
       
 </mat-card>
 </div>
-
+</section>
   
