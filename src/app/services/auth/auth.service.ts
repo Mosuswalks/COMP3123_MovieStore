@@ -1,68 +1,88 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import * as auth0 from 'auth0-js';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth } from 'firebase/app'
+import { FirebaseAuth } from '@angular/fire';
+import { FirebaseAuthState } from 'firebase/auth';
 
-
-(window as any).global = window;
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  auth0 = new auth0.WebAuth({
-    clientID: 'NJm6X0751SNUGP104-87Wy4rLZS4DdGA',
-    domain: 'moviebandit.auth0.com',
-    responseType: 'token id_token',
-    redirectUri: 'http://localhost:4200',
-    scope: 'openid'
-  });
+  authState: FirebaseAuthState = null;
 
-  constructor(public router: Router) { }
+  constructor(public afAuth: AngularFireAuth,private router: Router) { 
 
-  public login(): void{
-    this.auth0.authorize();
   }
 
+  public login(email, password){
+    return this.afAuth.auth.signInWithEmailAndPassword(email,password).catch(function(error){
+      return error.code + error.message
+    });
+    
+  };
 
-  public handleAuthentication(): void{
-    this.auth0.parseHash((err, authResult) => {
-      if(authResult && authResult.accessToken && authResult.idToken){
-        window.location.hash = '';
-        this.setSession(authResult);
-        this.router.navigate(['/movies']);
-      } else if (err){
-        this.router.navigate(['/']);
-        console.log(err);
-      }
+  public logout(){
+    return this.afAuth.auth.signOut().catch(function(error){
+      return error.code + error.message
     });
   }
 
-  private setSession(authResult): void{
-    const expiresAT = JSON.stringify((authResult.expiresIn *  1000) + new Date().getTime());
-    console.log(expiresAT);
-    localStorage.setItem('access_token', authResult.access_token);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAT);
+
+  public registerUser(email, password){
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password).catch(function(error){
+    })
+  };
+
+  public isAuthenticated(){
+    return this.afAuth.user
   }
+
+  // public login(): void{
+  //   this.auth0.authorize();
+  // }
+
+
+  // public handleAuthentication(): void{
+  //   this.auth0.parseHash((err, authResult) => {
+  //     if(authResult && authResult.accessToken && authResult.idToken){
+  //       window.location.hash = '';
+  //       this.setSession(authResult);
+  //       this.router.navigate(['/movies']);
+  //     } else if (err){
+  //       this.router.navigate(['/']);
+  //       console.log(err);
+  //     }
+  //   });
+  // }
+
+  // private setSession(authResult): void{
+  //   const expiresAT = JSON.stringify((authResult.expiresIn *  1000) + new Date().getTime());
+  //   console.log(expiresAT);
+  //   localStorage.setItem('access_token', authResult.accessToken);
+  //   localStorage.setItem('id_token', authResult.idToken);
+  //   localStorage.setItem('expires_at', expiresAT);
+  // }
   
 
-  public isAuthenticated(): boolean {
-    // Check whether the current time is past the token expiration.
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at') || '{}');
-    return new Date().getTime() < expiresAt;
-  }
+  // public isAuthenticated(): boolean {
+  //   // Check whether the current time is past the token expiration.
+  //   const expiresAt = JSON.parse(localStorage.getItem('expires_at') || '{}');
+  //   return new Date().getTime() < expiresAt;
+  // }
 
 
-  public logout(): void{
-    // Remove tokens and expiry from local storage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
+  // public logout(): void{
+  //   // Remove tokens and expiry from local storage
+  //   localStorage.removeItem('access_token');
+  //   localStorage.removeItem('id_token');
+  //   localStorage.removeItem('expires_at');
 
-    // Back to the application entry point
-    this.router.navigate(['/']);
-  }
+  //   // Back to the application entry point
+  //   this.router.navigate(['/']);
+  // }
 
 }

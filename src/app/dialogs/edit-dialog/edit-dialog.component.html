@@ -1,0 +1,71 @@
+<div class="container">
+    <h3 mat-dialog-title>Edit Movie: {{data.Title}}</h3>
+  
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <div class="form">
+        <mat-form-field color="accent" [formGroup]="formGroup">
+          <input matInput #input class="form-control" placeholder="Title" formControlName="Title" name="Title" >
+          <!-- <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error> -->
+        </mat-form-field>
+      </div>
+      
+      <!--Textarea for demo purposes-->
+      <div class="form">
+        <mat-form-field color="accent" [formGroup]="formGroup">
+          <input matInput #input class="form-control" formControlName="Director"  placeholder="Director"  name="Director" required >
+          <!-- <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error> -->
+        </mat-form-field>
+      </div>
+  
+      <!--Contains mat-hint for characters count and has maxLengt set-->
+      <div class="form">
+        <mat-form-field color="accent" [formGroup]="formGroup">
+          <input matInput #inputstate class="form-control" formControlName="Duration" placeholder="Duration" name="Duration" maxlength="10" required >
+          <!-- <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error> -->
+          <!-- <mat-hint align="end">{{inputstate.value?.length || 0}}/10</mat-hint> -->
+        </mat-form-field>
+      </div>
+  
+      <div class="form">
+        <mat-form-field color="accent" [formGroup]="formGroup">
+          <input matInput formControlName="Genre"  placeholder="Genre" name="genre" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+          <mat-form-field color="accent" [formGroup]="formGroup">
+            <input matInput formControlName="Year" placeholder="Year" name="year" required>
+          </mat-form-field>
+        </div>
+
+      <div class="form">
+        <mat-form-field color="accent" [formGroup]="formGroup"  required>
+          <mat-select [(value)]="value" formControlName="Rating">
+            
+            <mat-option value="1">1</mat-option>
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="4">4</mat-option>
+            <mat-option value="5">5</mat-option>
+            <mat-option value="6">6</mat-option>
+            <mat-option value="7">7</mat-option>
+            <mat-option value="8">8</mat-option>
+            <mat-option value="9">9</mat-option>
+            <mat-option value="10">10</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-radio-group [formGroup]="formGroup" formControlName="Status" required>
+          <mat-radio-button value="Available">Available</mat-radio-button>
+          <br>
+          <mat-radio-button value="Unavailable">Unavailable</mat-radio-button>
+      </mat-radio-group>
+        
+  
+      <div mat-dialog-actions>
+        <button mat-button [type]="submit" [disabled]="!formGroup.valid" [mat-dialog-close]="1" (click)="confirmUpdate()">Save</button>
+        <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+      </div>
+    </form>  
+  </div>

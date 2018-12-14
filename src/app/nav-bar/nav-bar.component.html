@@ -8,11 +8,11 @@
       Movie Bandit
     </button>
 
-    <button mat-button routerLink="/movies">Movies</button>
+    <button mat-button routerLink="/movies"  >Movies</button>
 
     <span class="example-spacer"></span>
-    <button class="navbar-end"color="primary" mat-raised-button mat-stroked-button *ngIf="auth.isAuthenticated()" (click)="logout()">Logout</button>
-    <button class="navbar-end"color="primary" mat-raised-button mat-stroked-button *ngIf="!auth.isAuthenticated()" (click)="login()">Login</button>
+    <button class="navbar-end"color="primary" mat-raised-button mat-stroked-button *ngIf="!auth.isAuthenticated() && router.url != '/auth'" routerLink="/auth" >Login</button>
+    <button class="navbar-end"color="primary" mat-raised-button mat-stroked-button *ngIf="auth.isAuthenticated() && router.url != '/auth'" routerLink="/auth" (click)="this.logout()">Logout</button>
 
   </mat-toolbar-row>
   

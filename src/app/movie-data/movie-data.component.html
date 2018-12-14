@@ -1,0 +1,71 @@
+
+<div class="section">
+<div class="card section column is-9 is-offset-2">
+<div>
+
+<mat-form-field class="container-fluid">
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<br>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 is-column is-9">
+
+    <ng-container matColumnDef="Title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let movie"> {{movie.Title}} </td>
+      </ng-container>
+    
+       <!--Name Column -->
+      <ng-container matColumnDef="Year">
+        <th mat-header-cell *matHeaderCellDef> Year </th>
+        <td mat-cell *matCellDef="let movie"> {{movie.Year}} </td>
+      </ng-container>
+    
+      <!-- Weight Column -->
+      <ng-container matColumnDef="Duration">
+        <th mat-header-cell *matHeaderCellDef> Duration </th>
+        <td mat-cell *matCellDef="let movie"> {{movie.Duration}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="Genre">
+        <th mat-header-cell *matHeaderCellDef> Genre </th>
+        <td mat-cell *matCellDef="let movie"> {{movie.Genre}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Director">
+        <th mat-header-cell *matHeaderCellDef> Director </th>
+        <td mat-cell *matCellDef="let movie"> {{movie.Director}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="Rating">
+        <th mat-header-cell *matHeaderCellDef> Rating </th>
+        <td mat-cell *matCellDef="let movie"> {{movie.Rating}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="Status">
+          <th mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let movie"> {{movie.Status}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="Actions">
+          <mat-header-cell *matHeaderCellDef>
+              <button mat-icon-button color="primary" (click)="addMovie()">
+                <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+              </button>
+          </mat-header-cell>
+          <td mat-cell *matCellDef="let movie">
+            <button mat-button color="accent" *ngIf="movie.status === 'Available'" (click)="reserveMovie($event, movie)"></button>
+            <button mat-icon-button color="accent" (click)="editMovie($event, movie)"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button color="accent" (click)="deleteItem($event, movie)"><mat-icon>delete</mat-icon></button>
+          </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+</div>
+</div>
+</div>

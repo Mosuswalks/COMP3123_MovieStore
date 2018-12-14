@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
 import { FormControl,FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { User } from '../../interfaces/user-interface';
+import { Router } from '@angular/router';
+import { isNull } from 'util';
+
 
 @Component({
   selector: 'app-authentication',
@@ -16,7 +19,6 @@ export class AuthenticationComponent implements OnInit {
   });
 
   registrationForm = new FormGroup({
-    name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     passwordConfirm: new FormControl('', [Validators.required])
@@ -24,33 +26,44 @@ export class AuthenticationComponent implements OnInit {
 
   user: User;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
 
   }
 
-  onSubmit(){
+  registerUser(){
     if(this.registrationForm.valid){
-      console.log('this far')
-      this.user.fullName = this.registrationForm.get("name").value;
-      this.user.email = this.registrationForm.get("email").value;
-      this.user.password = this.registrationForm.get("password").value;
-     
+        this.authService.registerUser(this.registrationForm.get('email').value, this.registrationForm.get('password').value).catch(function(error){
+        return error.code + error.message
+      });
     }
-    console.log(this.registrationForm.get("name").value);
-    console.log(this.registrationForm.get("email").value);
-    
+    this.router.navigate(['/movies'])
+  }
+
+  loginUser(){
+    console.log("Logged in")
+    return this.authService.login(this.loginForm.get("email").value,this.loginForm.get("password").value).catch(function(error){
+      if(isNull(error)){
+        this.router.navigate(['/movies']);
+      }
+      else{
+        return console.log("There was an error logging in: " + error.code + error.message);
+      }
+    });
   }
 
   matchPassword(){
     this.user.password = this.registrationForm.get("password").value;
     let passwordConfirm = this.registrationForm.get("passwordConfirm").value
-
     if(this.user.password === passwordConfirm){
       return this.user.password;
     }
-    
   }
 
+  getErrorMessage() {
+    return this.registrationForm.get('email').hasError('required') ? 'You must enter a value' :
+        this.registrationForm.get('email').hasError('email') ? 'Not a valid email' :
+            '';
+  }
 }

@@ -1,11 +1,13 @@
 
 // Movie Interface 
 export interface Movie {
-    Title: String;
-    Year: String;
-    Duration: String;
-    Genre: String;
-    Director: String;
-    Rating: String;
-    Status: Boolean;
+    id?: string;
+    Title: string;
+    Year: string;
+    Duration: string;
+    Genre: string;
+    Director: string;
+    Rating: string;
+    Status: string;
+    ReservedBy?: string;
 };

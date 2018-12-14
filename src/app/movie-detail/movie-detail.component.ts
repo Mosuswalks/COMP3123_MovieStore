@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MoviesService } from '../services/movies/movies.service';
+import { Movie } from '../../interfaces/movie-interface';
+import { AngularFirestoreDocument } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-movie-detail',
@@ -10,14 +12,19 @@ import { MoviesService } from '../services/movies/movies.service';
 })
 export class MovieDetailComponent implements OnInit {
 
-  movie$: Object;
+  movieId: any;
+  selectedMovie: any;
 
   constructor(private data: MoviesService, private route: ActivatedRoute) { 
-    this.route.params.subscribe(params => this.movie$ = params.id)
+    this.route.params.subscribe(params => this.movieId = params.id)
   }
 
   ngOnInit() {
-    this.data.getMovieDetails(this.movie$).subscribe(data => this.movie$ = data);
+    
+  }
+
+  getMovieDetails(){
+    // this.selectedMovie = this.data.getMovieDetails(this.movieId);
   }
 
 }
