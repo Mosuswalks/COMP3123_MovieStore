@@ -8,7 +8,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { HomeComponent } from './home/home.component';
 import { HttpModule } from '@angular/http';
-import { MovieDetailComponent } from './movie-detail/movie-detail.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { MoviesService } from './services/movies/movies.service';
@@ -28,6 +27,7 @@ import { MovieDataComponent } from './movie-data/movie-data.component';
 import { DeleteDialogComponent } from './dialogs/delete-dialog/delete-dialog.component';
 import { EditDialogComponent } from './dialogs/edit-dialog/edit-dialog.component';
 import { ReserveDialogComponent } from './dialogs/reserve-dialog/reserve-dialog.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 
 let routes = [{
@@ -63,6 +63,11 @@ let routes = [{
   {
     path:'reserve',
     component: ReserveDialogComponent
+  },
+
+  {
+    path:'admin',
+    component: AdminLoginComponent
   }
 
 
@@ -73,13 +78,13 @@ let routes = [{
     AppComponent,
     NavBarComponent,
     HomeComponent,
-    MovieDetailComponent,
     AuthenticationComponent,
     AddDialogComponent,
     DeleteDialogComponent,
     MovieDataComponent,
     EditDialogComponent,
-    ReserveDialogComponent
+    ReserveDialogComponent,
+    AdminLoginComponent
     
   ],
   imports: [

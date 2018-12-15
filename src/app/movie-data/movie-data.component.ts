@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MoviesService } from '../services/movies/movies.service';
-import { Movie } from '../../interfaces/movie-interface'
+import { Movie } from '../../models/movie-interface'
 import { MatTableDataSource } from '@angular/material'
 import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
 import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
@@ -19,6 +19,7 @@ export class MovieDataComponent implements OnInit {
 
   displayedColumns: string[] = ['Title', 'Director', 'Duration', 'Genre', 'Status', 'Year', 'Rating', 'Actions'];
   dataSource: MatTableDataSource<Movie>;
+  isAdmin = localStorage.getItem('isAdmin')
 
   movies: Movie[];
 
@@ -44,7 +45,7 @@ export class MovieDataComponent implements OnInit {
     const dialogRef = this.dialog.open(ReserveDialogComponent, {
       height: '400px',
       width: '400px',
-      data: {movie: movie}
+      data: movie
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -83,7 +84,7 @@ export class MovieDataComponent implements OnInit {
   }
 
 
-  deleteItem(event, movie) {
+  deleteMovie(event, movie) {
    
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       height: '250px',
@@ -98,5 +99,7 @@ export class MovieDataComponent implements OnInit {
       }
     });
   }
+
+
   
 }

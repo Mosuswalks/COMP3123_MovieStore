@@ -8,14 +8,16 @@
       Movie Bandit
     </button>
 
-    <button mat-button routerLink="/movies"  >Movies</button>
+    <button mat-button routerLink="/movies" *ngIf="afAuth.user | async as user; else showLogin" >Movies</button>
 
+    
     <span class="example-spacer"></span>
-    <button class="navbar-end"color="primary" mat-raised-button mat-stroked-button *ngIf="!auth.isAuthenticated() && router.url != '/auth'" routerLink="/auth" >Login</button>
-    <button class="navbar-end"color="primary" mat-raised-button mat-stroked-button *ngIf="auth.isAuthenticated() && router.url != '/auth'" routerLink="/auth" (click)="this.logout()">Logout</button>
-
+    <button class="navbar-end"color="primary" mat-raised-button mat-stroked-button *ngIf="afAuth.user | async as user"routerLink="/auth" (click)="this.logout()">Logout</button>
+    
+    
   </mat-toolbar-row>
   
 </mat-toolbar>
 </nav>
+
 

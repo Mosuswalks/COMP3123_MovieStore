@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
 import { FormControl,FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { User } from '../../interfaces/user-interface';
+import { User } from '../../models/user-interface';
 import { Router } from '@angular/router';
 import { isNull } from 'util';
 
@@ -34,23 +34,14 @@ export class AuthenticationComponent implements OnInit {
 
   registerUser(){
     if(this.registrationForm.valid){
-        this.authService.registerUser(this.registrationForm.get('email').value, this.registrationForm.get('password').value).catch(function(error){
-        return error.code + error.message
-      });
+        this.authService.registerUser(this.registrationForm.get('email').value, this.registrationForm.get('password').value);
     }
-    this.router.navigate(['/movies'])
   }
 
   loginUser(){
-    console.log("Logged in")
-    return this.authService.login(this.loginForm.get("email").value,this.loginForm.get("password").value).catch(function(error){
-      if(isNull(error)){
-        this.router.navigate(['/movies']);
-      }
-      else{
-        return console.log("There was an error logging in: " + error.code + error.message);
-      }
-    });
+    this.authService.login(this.loginForm.get("email").value,this.loginForm.get("password").value)
+    console.log("Successfully Logged In")
+    this.router.navigateByUrl('/movies');
   }
 
   matchPassword(){

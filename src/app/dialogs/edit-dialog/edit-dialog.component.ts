@@ -1,7 +1,7 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import {Component, Inject, OnInit} from '@angular/core';
 import { MoviesService } from '../../services/movies/movies.service';
-import { Movie } from '../../../interfaces/movie-interface';
+import { Movie } from '../../../models/movie-interface';
 import { FormControl, Validators, FormGroup, FormControlName } from '@angular/forms';
 
 
@@ -33,7 +33,6 @@ export class EditDialogComponent implements OnInit {
 
   onNoClick(){
     this.dialogRef.close()
-    console.log(this.data.id);
   }
 
   onSubmit(){
@@ -41,7 +40,6 @@ export class EditDialogComponent implements OnInit {
 
   confirmUpdate(){
     this.movie = this.formGroup.value;
-    console.log(this.movie);
     this.movieService.updateMovie(this.movie);
   }
 }

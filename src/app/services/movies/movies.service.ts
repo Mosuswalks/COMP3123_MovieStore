@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject} from 'rxjs';
 import { map } from 'rxjs/operators'
-import { Movie } from '../../../interfaces/movie-interface';
+import { Movie } from '../../../models/movie-interface';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 
@@ -48,6 +48,7 @@ export class MoviesService {
   }
 
   reserveMovie(movie: Movie){
-    this.afs.collection('movies').doc(movie.id).update({status: 'Unavailable'})
+    movie.Status = 'Unavailable';
+    this.afs.collection('movies').doc(movie.id).update(movie) 
   }
 }

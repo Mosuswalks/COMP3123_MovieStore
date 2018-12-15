@@ -1,4 +1,13 @@
-# FrontEnd
+# Movie-Bandit
+#
+# Admin email: admin@georgebrown.ca
+# Admin password: admin123
+#
+# User email: student@georgebrown.ca
+# User password: student123
+#
+# 
+#
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.6.
 

@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase/app'
+import { auth } from 'firebase/auth'
 import { FirebaseAuth } from '@angular/fire';
 import { FirebaseAuthState } from 'firebase/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { User } from '../../../models/user-interface';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 
 @Injectable({
@@ -12,77 +16,68 @@ import { FirebaseAuthState } from 'firebase/auth';
 })
 export class AuthService {
 
-  authState: FirebaseAuthState = null;
+  private loggedInStatus = JSON.parse(localStorage.getItem('loggedIn') || 'false');
+  
+  token: string;
 
-  constructor(public afAuth: AngularFireAuth,private router: Router) { 
+  user: Observable<User>;
 
+  //Get the user ID
+  uid = this.afAuth.authState.subscribe(authState => {
+    if(!authState){
+      return null;
+    }return authState.uid
+  });
+
+
+  // Check if the user is an Admin
+  isAdmin = this.afStore.collection('admin', ref => ref.where('id', '==', this.uid.toString()))
+
+  constructor(public afAuth: AngularFireAuth,private router: Router,private afStore: AngularFirestore) { 
+   
+  }
+
+  get isLoggedIn() {
+    return  JSON.parse(localStorage.getItem('loggedIn') || this.loggedInStatus.toString());
   }
 
   public login(email, password){
-    return this.afAuth.auth.signInWithEmailAndPassword(email,password).catch(function(error){
+    this.afAuth.auth.signInWithEmailAndPassword(email,password).catch(function(error){
       return error.code + error.message
     });
-    
+    this.router.navigate(['/movies']);
   };
-
+  
   public logout(){
     return this.afAuth.auth.signOut().catch(function(error){
-      return error.code + error.message
+      localStorage.removeItem('isAdmin');
+      return error.code + error.message;
     });
   }
 
-
-  public registerUser(email, password){
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password).catch(function(error){
-    })
-  };
-
-  public isAuthenticated(){
-    return this.afAuth.user
+  // store new user in firebase store
+  registerUser(email: string, password: string) {
+    this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+        .catch(
+            error => console.log(error)
+        )
   }
 
-  // public login(): void{
-  //   this.auth0.authorize();
-  // }
+  setLoggedIn(status: boolean) {
+    this.loggedInStatus = status;
+    // set value in client-side local storage and persist our session on browser reload
+    localStorage.setItem('loggedIn', 'true');
+}
 
+  public isAuthenticated(){
+    return this.uid !== null;
+  }
 
-  // public handleAuthentication(): void{
-  //   this.auth0.parseHash((err, authResult) => {
-  //     if(authResult && authResult.accessToken && authResult.idToken){
-  //       window.location.hash = '';
-  //       this.setSession(authResult);
-  //       this.router.navigate(['/movies']);
-  //     } else if (err){
-  //       this.router.navigate(['/']);
-  //       console.log(err);
-  //     }
-  //   });
-  // }
-
-  // private setSession(authResult): void{
-  //   const expiresAT = JSON.stringify((authResult.expiresIn *  1000) + new Date().getTime());
-  //   console.log(expiresAT);
-  //   localStorage.setItem('access_token', authResult.accessToken);
-  //   localStorage.setItem('id_token', authResult.idToken);
-  //   localStorage.setItem('expires_at', expiresAT);
-  // }
-  
-
-  // public isAuthenticated(): boolean {
-  //   // Check whether the current time is past the token expiration.
-  //   const expiresAt = JSON.parse(localStorage.getItem('expires_at') || '{}');
-  //   return new Date().getTime() < expiresAt;
-  // }
-
-
-  // public logout(): void{
-  //   // Remove tokens and expiry from local storage
-  //   localStorage.removeItem('access_token');
-  //   localStorage.removeItem('id_token');
-  //   localStorage.removeItem('expires_at');
-
-  //   // Back to the application entry point
-  //   this.router.navigate(['/']);
-  // }
-
+  public adminLogin(email: string, password: string){
+    // Had to use this silly hack because i couldnt for the life of me figure out roles in FireStore  Auth.
+    if(email == "admin@georgebrown.ca"){
+      this.login(email,password)
+      localStorage.setItem('isAdmin', 'true')
+    }
+  }
 }

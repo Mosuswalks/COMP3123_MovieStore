@@ -23,7 +23,7 @@ export class ReserveDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  confirmReservation(event, movie){
-    this.moviesService.reserveMovie(movie);
+  confirmReservation(){
+    this.moviesService.reserveMovie(this.data);
   }
 }

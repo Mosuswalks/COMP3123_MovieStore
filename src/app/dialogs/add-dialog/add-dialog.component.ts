@@ -1,7 +1,7 @@
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Component, Inject, OnInit} from '@angular/core';
 import { MoviesService } from '../../services/movies/movies.service';
-import { Movie } from '../../../interfaces/movie-interface';
+import { Movie } from '../../../models/movie-interface';
 import { FormControl, Validators, FormGroup, FormControlName } from '@angular/forms';
 
 @Component({
